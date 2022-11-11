@@ -120,7 +120,23 @@ namespace IFrameUploader
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                System.Diagnostics.Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        internal void ExportSettings()
+        {
+            using var dialog = new SaveFileDialog { Filter = @"JSON Files (*.json)|*.json|All files (*.*)|*.*" };
+            if (dialog.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(dialog.FileName)) return;
+
+            try
+            {
+                File.WriteAllText(dialog.FileName, Settings.Default.ConnStrings);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
                 throw;
             }
         }
